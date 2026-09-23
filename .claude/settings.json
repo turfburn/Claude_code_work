@@ -5,9 +5,17 @@
         "source": "github",
         "repo": "anthropics/claude-plugins-official"
       }
+    },
+    "simple-english": {
+      "source": {
+        "source": "github",
+        "repo": "AminBlg/SimpleEnglish",
+        "ref": "v2.1.0"
+      }
     }
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": true,
+    "simple-english@simple-english": true
   }
 }
