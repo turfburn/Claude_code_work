@@ -1,0 +1,10 @@
+AK Counseling, Inc. - website redesign (local demo copy)
+
+Open index.html in this folder with any web browser (double-click it).
+No internet connection or software install is required to browse the pages.
+
+Needs an internet connection to show: YouTube/TED/Spotify videos, the Google Map,
+and links to outside sites (Stripe deposit, client portal, Psychology Today, etc.).
+
+This copy uses relative links for offline viewing. The version for hosting the
+live site is the "site" folder in the project (see README.md).

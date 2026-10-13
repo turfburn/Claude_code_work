@@ -6,10 +6,14 @@ Each file in src/content/ is an HTML fragment that starts with a metadata commen
 build.py wraps it in the shared layout (header, nav, footer, contact bar) and writes
 site/<path>/index.html, preserving the live site's URLs.
 
-Usage: python3 build.py
+Usage:
+    python3 build.py          # production build into site/ (root-relative URLs)
+    python3 build.py --local  # also writes site-local/, which opens by double-clicking index.html
 """
 import json
 import re
+import shutil
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -271,6 +275,37 @@ def expand(body):
     return body
 
 
+def localize(html_text, depth):
+    """Rewrite root-relative href/src so pages work from file:// (no web server)."""
+    prefix = "../" * depth
+    # Font preloads use CORS, which browsers refuse on file://; the CSS still loads the fonts.
+    html_text = re.sub(r'<link rel="preload"[^>]*as="font"[^>]*>\n', "", html_text)
+
+    def fix(m):
+        attr, url = m.group(1), m.group(2)
+        path, _, frag = url.partition("#")
+        if path.endswith("/"):
+            path += "index.html"
+        new = prefix + path.lstrip("/")
+        return f'{attr}="{new}{"#" + frag if frag else ""}"'
+    return re.sub(r'\b(href|src)="(/[^"/][^"]*|/)"', fix, html_text)
+
+
+def build_local(pages):
+    local = ROOT / "site-local"
+    if local.exists():
+        shutil.rmtree(local)
+    shutil.copytree(OUT / "assets", local / "assets")
+    for meta in pages:
+        rel = meta["path"].strip("/")
+        src = OUT / rel / "index.html" if rel else OUT / "index.html"
+        depth = len(rel.split("/")) if rel else 0
+        dest = local / rel / "index.html" if rel else local / "index.html"
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(localize(src.read_text(encoding="utf-8"), depth), encoding="utf-8")
+    print("built site-local/ (open site-local/index.html directly)")
+
+
 def main():
     pages = []
     for f in sorted(SRC.glob("*.html")):
@@ -291,6 +326,8 @@ def main():
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "".join(f"  <url><loc>{BASE_URL}{u}</loc></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n", encoding="utf-8")
+    if "--local" in sys.argv:
+        build_local(pages)
 
 
 if __name__ == "__main__":

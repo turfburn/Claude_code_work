@@ -20,13 +20,17 @@ Content: 14 pages, 0 blog posts, 17 testimonials, ~100 media files.
 build.py            # assembles pages: src/content/*.html + shared layout -> site/
 src/content/        # one HTML fragment per page (copy lives here)
 site/               # deployable output (static HTML/CSS/JS, no build step needed to host)
+site-local/         # same pages with relative links, for opening from disk (demo copy)
   assets/css, js, img, fonts
   _redirects        # legacy-URL redirects (Netlify / Cloudflare Pages format)
   sitemap.xml, robots.txt
 ```
 
-Preview locally: `python3 -m http.server -d site 8000`, then open http://localhost:8000.
-Edit copy in `src/content/`, then run `python3 build.py`.
+Preview locally, either way:
+- **No server:** open `site-local/index.html` directly (double-click). Run `python3 build.py --local` to regenerate it.
+- **With a server (matches production URLs):** `python3 -m http.server -d site 8000`, then go to http://localhost:8000.
+
+Edit copy in `src/content/`, then run `python3 build.py --local`. Use `site/` for hosting and `site-local/` only for offline demos.
 
 ## Design system
 
