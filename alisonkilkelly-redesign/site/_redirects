@@ -1,0 +1,14 @@
+# Netlify/Cloudflare Pages format. Legacy URLs that the old site linked to (several returned 404).
+/contactandlocation/*   /contact-location/      301
+/contactandlocation     /contact-location/      301
+/getstarted/*           /get-started/           301
+/getstarted             /get-started/           301
+/testimonials/*         /what-clients-say/      301
+/testimonials           /what-clients-say/      301
+/testimonial/exceptional-marital-therapy/   /what-clients-say/#exceptional-marital-therapy   301
+/testimonial/456/                           /what-clients-say/#depression-anxiety-parenting  301
+/testimonial/453/                           /what-clients-say/#not-hopelessly-broken         301
+/testimonial/alison-is-awesome/             /what-clients-say/#abusive-significant-other     301
+/testimonial/alison-saved-my-life/          /what-clients-say/#alison-saved-my-life          301
+/testimonial/cozy-office-so-easy-to-talk-to/ /what-clients-say/#diminished-anxiety           301
+/testimonial/*                              /what-clients-say/                               301
