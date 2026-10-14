@@ -1,0 +1,12 @@
+/*
+Theme Name: AK Counseling
+Theme URI: https://alisonkilkelly.com/
+Description: Custom theme for AK Counseling, Inc. Teal and chartreuse palette from the AK logo, Fraunces and Figtree type, responsive layout with a mobile call/text/email bar. After activating, open Appearance > AK Counseling Setup.
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ak-counseling
+*/
+/* The design's styles live in assets/css/styles.css (enqueued in functions.php). */

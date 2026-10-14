@@ -21,6 +21,8 @@ build.py            # assembles pages: src/content/*.html + shared layout -> sit
 src/content/        # one HTML fragment per page (copy lives here)
 site/               # deployable output (static HTML/CSS/JS, no build step needed to host)
 site-local/         # same pages with relative links, for opening from disk (demo copy)
+src/wp-theme/       # WordPress theme templates + setup screen (packaged by build.py --wp)
+dist/               # ak-counseling-theme.zip
   assets/css, js, img, fonts
   _redirects        # legacy-URL redirects (Netlify / Cloudflare Pages format)
   sitemap.xml, robots.txt
@@ -68,7 +70,7 @@ Edit copy in `src/content/`, then run `python3 build.py --local`. Use `site/` fo
 - **Static host (simplest):** point Netlify, Cloudflare Pages, or similar at `site/`. `_redirects` works there as-is.
   - The Stripe Payment Link's success and cancel URLs should go to `/deposit-confirmation/` and `/deposit-failed/`.
   - MonsterInsights analytics is not carried over. Add a GA4 or privacy-friendly analytics snippet to `build.py` if she wants it.
-- **Staying on WordPress:** the HTML and CSS port cleanly to a block theme or a child theme. The trade-off is that she keeps WordPress's editing UI but also keeps plugin and theme updates to maintain.
+- **Staying on WordPress (built):** `python3 build.py --wp` writes `dist/ak-counseling-theme.zip`, a classic theme. Upload it under Appearance > Themes, then open Appearance > AK Counseling Setup. That screen applies the page designs, matching pages by URL; it backs up each page's current text, which its Undo button restores. It also builds the menu. Contact details live in Customizer > AK Counseling contact details. The flow was tested on WordPress 6.7-alpha with WordPress Playground: activate, apply, restore, re-apply.
 
 ## Not verified here
 
